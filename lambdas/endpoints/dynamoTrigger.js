@@ -7,9 +7,10 @@ module.exports.dynamoTrigger = async (event, context, callback) => {
   console.log('event', event)
   console.log('eventName', event.Records[0].eventName)
   console.log('dynamodb', event.Records[0].dynamodb)
-  console.log('dynamodb', event.Records[0].dynamodb.NewImage.firstName)
-  console.log('dynamodb', event.Records[0].dynamodb.NewImage.lastName)
-  console.log('dynamodb', event.Records[0].dynamodb.NewImage.email)
+  console.log('NewImage', event.Records[0].dynamodb.NewImage)
+  console.log('dynamodb', event.Records[0].dynamodb.NewImage.firstName.S)
+  console.log('dynamodb', event.Records[0].dynamodb.NewImage.lastName.S)
+  console.log('dynamodb', event.Records[0].dynamodb.NewImage.email.S)
 
   // const { to, from, subject, content } = JSON.parse(event.body)
   // if (!to || !from || !subject || !content) {
