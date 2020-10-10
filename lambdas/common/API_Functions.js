@@ -5,7 +5,6 @@ const { USER_TABLE } = process.env
 
 module.exports = {
   getUsers: async () => {
-    console.log('getUsers function')
     const users = await Dynamo.getAll(USER_TABLE).catch(err => {
       console.log('Error in Dynamo get', err)
       return null
@@ -18,11 +17,9 @@ module.exports = {
     return Responses._200(users)
   },
   getUser: async id => {
-    console.log('getUser function')
     return { data: 'getUser' }
   },
   createUser: async body => {
-    console.log('createUser function')
     const user = await Dynamo.create(USER_TABLE, body).catch(err => {
       console.log('Error in Dynamo create', err)
       return null
@@ -36,7 +33,6 @@ module.exports = {
     return Responses._200(user)
   },
   updateUser: async (id, body) => {
-    console.log('updateUser function')
     const updatedUser = await Dynamo.update(USER_TABLE, id, body).catch(err => {
       console.log('Error in Dynamo update', err)
       return null
@@ -51,7 +47,6 @@ module.exports = {
     return Responses._200(updatedUser)
   },
   deleteUser: async id => {
-    console.log('deleteUser function')
     const userId = await Dynamo.delete(USER_TABLE, id).catch(err => {
       console.log('Error in Dynamo delete', err)
       return null

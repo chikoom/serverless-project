@@ -5,7 +5,6 @@ const { USER_TABLE } = process.env
 
 module.exports = {
   signupUser: async body => {
-    console.log('signupUser function')
     const parsedBody = JSON.parse(body)
     const attr = {
       field: 'email',
@@ -33,7 +32,6 @@ module.exports = {
     return Responses._200(user)
   },
   loginUser: async body => {
-    console.log('loginUser function')
     const parsedBody = JSON.parse(body)
     const attr = {
       field: 'email',
@@ -43,18 +41,14 @@ module.exports = {
       console.log('Error in Dynamo login', err)
       return null
     })
-    console.log(result)
     if (result.Count === 0) {
       return Responses._400({
         message: `User with this email doesn't exist`,
       })
     }
-
     const user = result.Items[0]
-
     const askedPassword = parsedBody.password
     const retrievedPassword = user.password
-
     if (askedPassword !== retrievedPassword) {
       return Responses._400({
         message: `Password doesn't match`,

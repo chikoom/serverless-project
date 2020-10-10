@@ -19,7 +19,6 @@ const Dynamo = {
         `Error fetching from user DB for id ${id} from table ${TableName}`
       )
     }
-    console.log(data)
     return data.Item
   },
   async findOne(TableName, attr) {

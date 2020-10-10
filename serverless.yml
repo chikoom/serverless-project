@@ -32,6 +32,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:*
+        - ses:*
       Resource: '*'
 
 plugins:
@@ -73,6 +74,24 @@ custom:
   usersTable: usersTable
 
 functions:
+  dynamoTrigger:
+    handler: lambdas/endpoints/dynamoTrigger.dynamoTrigger
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - DynamoDBTable
+              - StreamArn
+  sendEmail:
+    handler: lambdas/endpoints/sendEmail.sendEmail
+    events:
+      - http:
+          path: send
+          method: post
+          cors: true
   queryUsers:
     handler: lambdas/endpoints/query.queryUsers
     events:
@@ -158,6 +177,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
