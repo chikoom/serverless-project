@@ -107,6 +107,10 @@ functions:
           cors: true
       - http:
           path: users/{id}
+          method: get
+          cors: true
+      - http:
+          path: users/{id}
           method: put
           cors: true
       - http:

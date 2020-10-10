@@ -14,10 +14,36 @@ module.exports = {
         message: `Faild to get users`,
       })
     }
-    return Responses._200(users)
+    const responseUsers = users.map(user => ({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      id: user.id,
+    }))
+    console.log(responseUsers)
+    return Responses._200(responseUsers)
   },
   getUser: async id => {
-    return { data: 'getUser' }
+    const user = await Dynamo.findOne(USER_TABLE, {
+      field: 'id',
+      value: id,
+    }).catch(err => {
+      console.log('Error in Dynamo get one', err)
+      return null
+    })
+    if (!user || !user.Items) {
+      return Responses._400({
+        message: `Faild to get users`,
+      })
+    }
+    if (user.Items[0]) {
+      const userToSend = user.Items[0]
+      delete userToSend.password
+      return Responses._200(userToSend)
+    }
+    return Responses._400({
+      message: `Could not find user`,
+    })
   },
   createUser: async body => {
     const user = await Dynamo.create(USER_TABLE, body).catch(err => {

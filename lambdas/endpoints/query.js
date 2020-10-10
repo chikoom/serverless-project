@@ -18,6 +18,9 @@ module.exports.queryUsers = async (event, context, callback) => {
   if (httpMethod === 'POST' && resource === '/users') {
     return await Functions.createUser(body)
   }
+  if (httpMethod === 'GET' && resource === '/users/{id}' && pathParameters) {
+    return await Functions.getUser(pathParameters.id)
+  }
   if (httpMethod === 'DELETE' && resource === '/users/{id}' && pathParameters) {
     return await Functions.deleteUser(pathParameters.id)
   }
