@@ -26,12 +26,19 @@ provider:
   profile: serverlessAWS
   #  stage: dev
   region: eu-central-1
+  environment:
+    USER_TABLE: ${self:custom.usersTable}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
 
-  plugins:
-    - serverless-webpack
+plugins:
+  - serverless-webpack
 
-  package:
-    individually: true
+package:
+  individually: true
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -62,15 +69,37 @@ provider:
 #    - exclude-me.js
 #    - exclude-me-dir/**
 
+custom:
+  usersTable: usersTable
+
 functions:
-  getUser:
-    handler: lambdas/getUser.handler
+  queryUsers:
+    handler: lambdas/endpoints/query.queryUsers
     events:
       - http:
-          path: users/{id}
+          path: users
           method: get
           cors: true
-
+      - http:
+          path: users
+          method: post
+          cors: true
+      - http:
+          path: users/{id}
+          method: put
+          cors: true
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true
+      - http:
+          path: signup
+          method: post
+          cors: true
+      - http:
+          path: login
+          method: post
+          cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -118,6 +147,17 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: mighty-bucket-project
+    DynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.usersTable}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
