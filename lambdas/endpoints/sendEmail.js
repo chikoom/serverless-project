@@ -4,15 +4,22 @@ const SES = new AWS.SES()
 
 module.exports.sendEmail = async (event, context, callback) => {
   console.log(event)
-  const { to, from, subject, content } = JSON.parse(event.body)
-  if (!to || !from || !subject || !content) {
+  console.log(event.Records[0].Sns)
+  // const { to, from, subject, content } = JSON.parse(event.body)
+
+  const { to, firstName, lastName } = JSON.parse(event.Records[0].Sns.Message)
+  const subject = `Hi ${firstName}! An account is been created for you 🥂`
+  const content = `Hello ${firstName} ${lastName}, Welcome To MightyMicro API!`
+
+  if (!to || !subject || !content) {
     return Responses._400({
       message: `Missing arguments for sending email`,
     })
   }
+  console.log(to)
   const params = {
     Destination: {
-      ToAddresses: [to, 'studio@chikoom.com'],
+      ToAddresses: [to],
     },
     Message: {
       Body: {
@@ -24,7 +31,7 @@ module.exports.sendEmail = async (event, context, callback) => {
         Data: subject,
       },
     },
-    Source: from,
+    Source: 'callforcopy@gmail.com',
   }
   try {
     const result = await SES.sendEmail(params).promise()

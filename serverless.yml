@@ -33,6 +33,7 @@ provider:
       Action:
         - dynamodb:*
         - ses:*
+        - SNS:Publish
       Resource: '*'
 
 plugins:
@@ -88,6 +89,7 @@ functions:
   sendEmail:
     handler: lambdas/endpoints/sendEmail.sendEmail
     events:
+      - sns: sendWel
       - http:
           path: send
           method: post
@@ -162,10 +164,6 @@ functions:
 # you can add CloudFormation resource templates here
 resources:
   Resources:
-    ProjectBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: mighty-bucket-project
     DynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
