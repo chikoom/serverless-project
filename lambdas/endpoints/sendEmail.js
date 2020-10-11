@@ -17,24 +17,34 @@ module.exports.sendEmail = async (event, context, callback) => {
     })
   }
   console.log(to)
+  // const params = {
+  //   Destination: {
+  //     ToAddresses: [to],
+  //   },
+  //   Message: {
+  //     Body: {
+  //       Text: {
+  //         Data: content,
+  //       },
+  //     },
+  //     Subject: {
+  //       Data: subject,
+  //     },
+  //   },
+  //   Source: 'callforcopy@gmail.com',
+  // }
   const params = {
     Destination: {
       ToAddresses: [to],
     },
-    Message: {
-      Body: {
-        Text: {
-          Data: content,
-        },
-      },
-      Subject: {
-        Data: subject,
-      },
-    },
     Source: 'callforcopy@gmail.com',
+    Template: 'MightyTemplateEmoji',
+    TemplateData: `{ \"firstName\":\"${firstName}\", \"lastName\": \"${lastName}\" }`,
   }
   try {
-    const result = await SES.sendEmail(params).promise()
+    // const result = await SES.sendEmail(params).promise()
+    const result = await SES.sendTemplatedEmail(params).promise()
+
     console.log('email result', result)
     return Responses._200({ message: 'Email sent' })
   } catch (err) {

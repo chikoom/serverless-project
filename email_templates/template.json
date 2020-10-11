@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "MightyTemplateEmoji",
+    "SubjectPart": "Hi {{firstName}}! An account is been created for you =?utf-8?Q?=F0=9F=A5=82?=",
+    "TextPart": "",
+    "HtmlPart": "<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n  </head>\r\n  <body>\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n      <tr>\r\n        <td align=\"center\">\r\n          <br /><br />\r\n          <h1>Hello {{firstName}} {{lastName}}!</h1>\r\n          <h2>Welcome To MightyMicro API!</h2>\r\n          <br />\r\n          <p>\r\n            You are welcome to\r\n            <a\r\n              href=\"https://mighty-api.s3.eu-central-1.amazonaws.com/index.html\"\r\n              target=\"_blank\"\r\n              >sign in</a\r\n            >\r\n            to your account\r\n          </p>\r\n          <img\r\n            src=\"https://i.pinimg.com/564x/30/62/75/3062756a297f1e3c22e35f3fe89b3ecc.jpg\"\r\n            width=\"300\"\r\n            height=\"300\"\r\n          />\r\n          <p>\r\n            If you recieved this email by mistake,<br />please contact\r\n            <a href=\"mailto:callforcopy@gmail.com\" target=\"_blank\"\r\n              >callforcopy@gmail.com</a\r\n            >\r\n          </p>\r\n        </td>\r\n      </tr>\r\n    </table>\r\n  </body>\r\n</html>\r\n"
+  }
+}
