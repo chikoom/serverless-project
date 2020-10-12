@@ -1,5 +1,3 @@
-'use strict'
-
 const Functions = require('../common/API_Functions')
 const AFunctions = require('../common/AUTH_Functions')
 

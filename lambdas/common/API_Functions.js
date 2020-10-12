@@ -20,7 +20,6 @@ module.exports = {
       email: user.email,
       id: user.id,
     }))
-    console.log(responseUsers)
     return Responses._200(responseUsers)
   },
   getUser: async id => {

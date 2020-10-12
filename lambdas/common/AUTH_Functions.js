@@ -1,6 +1,5 @@
 const Responses = require('./API_Responses')
 const Dynamo = require('./Dynamo')
-
 const { USER_TABLE } = process.env
 
 module.exports = {

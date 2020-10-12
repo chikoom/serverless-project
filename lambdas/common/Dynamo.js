@@ -1,7 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
 const AWS = require('aws-sdk')
-const { create } = require('domain')
-
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const Dynamo = {
@@ -13,7 +11,6 @@ const Dynamo = {
       },
     }
     const data = await documentClient.get(params).promise()
-
     if (!data || !data.Item) {
       throw Error(
         `Error fetching from user DB for id ${id} from table ${TableName}`
@@ -27,10 +24,8 @@ const Dynamo = {
       FilterExpression: `${attr.field} = :${attr.field}`,
       ExpressionAttributeValues: { [`:${attr.field}`]: attr.value },
     }
-    console.log('params', params)
     const data = await documentClient.scan(params).promise()
-    console.log('params', data)
-
+    console.log('data', data)
     return data
   },
   async getAll(TableName) {
@@ -86,7 +81,6 @@ const Dynamo = {
       ReturnValues: 'ALL_NEW',
     }
     const result = await documentClient.update(params).promise()
-
     if (!result || !result.Attributes) {
       console.log('Error updating')
       throw Error(`Error updating existing user in DB table ${TableName}`)
@@ -102,13 +96,11 @@ const Dynamo = {
       },
     }
     const result = await documentClient.delete(params).promise()
-
     if (!result) {
       throw Error(
         `Error deleting user from DB for id ${id} from table ${TableName}`
       )
     }
-
     return { deltedId: id }
   },
 }
